@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace:命名空间，主要用于statement分类管理唯一标识符
+    注意:在mapper代理模式开发时，这个有另外的特殊作用
+-->
+<mapper namespace="HandSchool.MybatisDemo1.mapper.UserMapper">
+
+    <!-- 根据 ID 查询数据 -->
+    <select id="findUserById" parameterType="long" resultType="HandSchool.MybatisDemo1.entity.User">
+        select * from `user` where id=#{id};
+    </select>
+
+    <!-- ${}内必须写value -->
+    <select id="findUserByName" parameterType="java.lang.String" resultType="HandSchool.MybatisDemo1.entity.User">
+        select * from `user` where user_name like '%${value}%';
+    </select>
+
+    <!--
+        只要主键不是自增，selectKey中order设置为BEFORE,需要给显示赋值
+        Oracle的Seq是要order设为BEFORE来获取的
+    -->
+    <insert id="addUser" parameterType="HandSchool.MybatisDemo1.entity.User">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into user(user_name,`name`,birthday,age) values(#{userName},#{name},#{birthday},#{age});
+    </insert>
+
+    <!-- 根据ID 更新数据 -->
+    <update id="updateById" parameterType="HandSchool.MybatisDemo1.entity.User">
+        update user set user_name=#{userName},name=#{name},birthday=#{birthday},age=#{age}
+        where id=#{id}
+    </update>
+
+    <!-- 根据ID 删除数据 -->
+    <delete id="deleteById" parameterType="integer">
+        delete from user where id=#{id};
+    </delete>
+</mapper>

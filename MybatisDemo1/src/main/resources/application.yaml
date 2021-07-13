@@ -1,0 +1,14 @@
+mybatis:
+  #domain对象的包
+  type-aliases-package: HandSchool.Mybatis.Demo1.entity
+
+  #mapper。xml所在的位置
+  mapper-locations: classpath:HandSchool.Mybatis.Demo1.mapper/UserMapper.xml
+  configuration:
+    #延迟加载true
+    lazy-loading-enabled: true
+    #立即加载false
+    aggressive-lazy-loading: false
+    #自动将SQL中查出来的带下划线的字段，转换为驼峰标志，再去匹配类中的属性
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
